@@ -1,6 +1,7 @@
 package com.example.test.ui.main;
 
 import android.os.Bundle;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -20,8 +21,13 @@ import com.example.test.R;
 import org.json.JSONException;
 import org.json.JSONObject;
 
+import java.util.TimerTask;
+
 public class Fragment_1<stringRequest> extends Fragment {
     private TextView data;
+    RequestQueue queue;
+
+
     public static Fragment_1 newInstance(){
         Fragment_1 fragment = new Fragment_1();
         return fragment;
@@ -29,6 +35,9 @@ public class Fragment_1<stringRequest> extends Fragment {
 
     public void onCreate (Bundle savedInstanceState){
         super.onCreate((savedInstanceState));
+        queue = Volley.newRequestQueue(getActivity().getApplicationContext());
+        GetData();
+
     }
 
     @Override
@@ -37,11 +46,76 @@ public class Fragment_1<stringRequest> extends Fragment {
             Bundle savedInstanceState) {
         View root = inflater.inflate(R.layout.fragment_1, container, false);
         data = root.findViewById(R.id.textView);
+
+
+
+
+        /*
+        //요청 전송
+        // Instantiate the RequestQueue.
+        RequestQueue queue = Volley.newRequestQueue(getActivity().getApplicationContext());
+        String url ="http://junior.catsecurity.net/~yesqwe/imfine/getdata.php";
+
+        // Request a string response from the provided URL.
+        StringRequest stringRequest = new StringRequest(Request.Method.GET, url,
+                new Response.Listener<String>() {
+                    @Override
+                    public void onResponse(String response) {
+                        // Display the first 500 characters of the response string.
+                        try {
+                            JSONObject jsonObject = new JSONObject(response);
+                            float pm2 = jsonObject.getLong("pm2");
+                            data.setText(pm2 + "");
+                        } catch (JSONException e) {
+                            e.printStackTrace();
+                        }
+                    }
+                }, new Response.ErrorListener() {
+            @Override
+            public void onErrorResponse(VolleyError error) {
+                System.out.println("fail");
+            }
+        });
+
+        // Add the request to the RequestQueue.
+        queue.add(stringRequest);
+        */
         return root;
     }
 
-    //데이터 수신 리스너
+    public void GetData(){
+        //요청 전송
+        // Instantiate the RequestQueue.
+        RequestQueue queue = Volley.newRequestQueue(getActivity().getApplicationContext());
+        String url ="http://junior.catsecurity.net/~yesqwe/imfine/getdata.php";
 
+        // Request a string response from the provided URL.
+        StringRequest stringRequest = new StringRequest(Request.Method.GET, url,
+                new Response.Listener<String>() {
+                    @Override
+                    public void onResponse(String response) {
+                        // Display the first 500 characters of the response string.
+                        try {
+                            JSONObject jsonObject = new JSONObject(response);
+                            float pm2 = jsonObject.getLong("pm2");
+                            data.setText(pm2 + "");
+                        } catch (JSONException e) {
+                            e.printStackTrace();
+                        }
+                    }
+                }, new Response.ErrorListener() {
+            @Override
+            public void onErrorResponse(VolleyError error) {
+                System.out.println("fail");
+            }
+        });
+
+        // Add the request to the RequestQueue.
+        queue.add(stringRequest);
+    }
+
+    //데이터 수신 리스너
+/*
     Response.Listener<String> responseListener = new Response.Listener<String>() {
         @Override
         public void onResponse(String response) {
@@ -54,7 +128,7 @@ public class Fragment_1<stringRequest> extends Fragment {
             }
         }
     };
-
+*/
     //데이터 요청
 /*
     GetdataRequest getdataRequest = new GetdataRequest(responseListener);
@@ -62,30 +136,5 @@ public class Fragment_1<stringRequest> extends Fragment {
     queue.add(getdataRequest);
 */
 
-    //요청 전송
-    /*
-    RequestQueue queue = Volley.newRequestQueue(this);
-    String url = "http://junior.catsecurity.net/~yesqwe/imfine/getdata.php";
-*/
 
-    // Instantiate the RequestQueue.
-
-    RequestQueue queue = Volley.newRequestQueue(getActivity().getApplicationContext());
-    String url ="http://junior.catsecurity.net/~yesqwe/imfine/getdata.php";
-
-    // Request a string response from the provided URL.
-    StringRequest stringRequest = new StringRequest(Request.Method.GET, url,
-            new Response.Listener<String>() {
-                @Override
-                public void onResponse(String response) {
-                    // Display the first 500 characters of the response string.
-                }
-            }, new Response.ErrorListener() {
-        @Override
-        public void onErrorResponse(VolleyError error) {
-        }
-    });
-
-    // Add the request to the RequestQueue.
-    queue.add(stringRequest);
 }
