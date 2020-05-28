@@ -21,10 +21,12 @@ import com.example.test.R;
 import org.json.JSONException;
 import org.json.JSONObject;
 
+import java.util.Timer;
 import java.util.TimerTask;
 
 public class Fragment_1<stringRequest> extends Fragment {
     private TextView data;
+    private TimerTask mTimer;
     RequestQueue queue;
 
 
@@ -33,11 +35,21 @@ public class Fragment_1<stringRequest> extends Fragment {
         return fragment;
     }
 
-    public void onCreate (Bundle savedInstanceState){
+    public void onCreate (Bundle savedInstanceState) {
         super.onCreate((savedInstanceState));
         queue = Volley.newRequestQueue(getActivity().getApplicationContext());
-        GetData();
+        final String log = "11";
 
+        Timer timer = new Timer();
+
+        TimerTask TT = new TimerTask(){
+            public void run(){
+                Log.d("Tag","timer");
+                GetData();
+            }
+        };
+
+        timer.schedule(TT,0,1000);
     }
 
     @Override
