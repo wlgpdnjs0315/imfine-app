@@ -23,11 +23,17 @@ import com.android.volley.toolbox.StringRequest;
 import com.android.volley.toolbox.Volley;
 import com.example.test.R;
 import com.github.mikephil.charting.charts.LineChart;
+import com.github.mikephil.charting.data.Entry;
+import com.github.mikephil.charting.data.LineData;
+import com.github.mikephil.charting.data.LineDataSet;
+import com.github.mikephil.charting.interfaces.datasets.ILineDataSet;
+import com.github.mikephil.charting.utils.ColorTemplate;
 
 import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
 
+import java.util.ArrayList;
 import java.util.Timer;
 import java.util.TimerTask;
 
@@ -35,6 +41,7 @@ public class Fragment_1<stringRequest> extends Fragment {
     private TextView data;
     private TextView text;
     SwipeRefreshLayout mSwipeRefreshLayout;
+    LineChart lineChart;
 
 
     public static Fragment_1 newInstance(){
@@ -45,6 +52,7 @@ public class Fragment_1<stringRequest> extends Fragment {
     public void onCreate (Bundle savedInstanceState) {
         super.onCreate((savedInstanceState));
         GetData();
+        draw_chart();
     }
 
 
@@ -55,7 +63,8 @@ public class Fragment_1<stringRequest> extends Fragment {
         View root = inflater.inflate(R.layout.fragment_1, container, false);
         data = root.findViewById(R.id.textView);
         text = root.findViewById(R.id.textView2);
-        LineChart lineChart = (LineChart)root.findViewById(R.id.chart);
+
+        lineChart = (LineChart)root.findViewById(R.id.chart);
 
         mSwipeRefreshLayout = (SwipeRefreshLayout) root.findViewById(R.id.swipe_refresh_layout);
         mSwipeRefreshLayout.setOnRefreshListener(new SwipeRefreshLayout.OnRefreshListener() {
@@ -145,15 +154,32 @@ public class Fragment_1<stringRequest> extends Fragment {
                     public void onResponse(String response) {
                         // Display the first 500 characters of the response string.
                         try {
-                            JSONArray jsonArray = new JSONArray("history");
+                            //데이터 가져옴
+                            JSONObject jsonObject = new JSONObject(response);
+                            JSONArray jsonArray = jsonObject.getJSONArray("history");
+                            //차트 그리기 위한 ArrayList
+                            ArrayList<Entry> entries = new ArrayList<>();
+                            ArrayList<String> labels = new ArrayList<String>();
 
                             for(int i = 0; i < jsonArray.length(); i++){
-                                JSONObject jsonObject = jsonArray.getJSONObject(i);
-                                float history_pm2 = jsonObject.getLong("pm2");
-                                String history_time = jsonObject.getString("time");
-                                Log.d("pm2",history_pm2+"");
-                                Log.d("time",history_time);
+                                JSONObject item = jsonArray.getJSONObject(i);
+                                double history_pm2 = item.getDouble("pm2");
+                                String history_time = item.getString("time");
+
+                                entries.add(new Entry(i,(float) history_pm2));
+                                labels.add(history_time);
                             }
+
+                            LineDataSet dataset = new LineDataSet(entries,"pm2.5");
+                            LineData data = new LineData(dataset);
+                            lineChart.setData(data);
+                            lineChart.invalidate();
+                            //LineDataSet dataset = new LineDataSet(entries,"pm2.5");
+                            //LineData data = new LineData(labels, dataset);
+                            //dataset.setColors(ColorTemplate.COLORFUL_COLORS);
+                            //lineChart.setData(data);
+                            //lineChart.animateY(5000);
+
 
                         } catch (JSONException e) {
                             e.printStackTrace();
