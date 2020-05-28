@@ -154,32 +154,32 @@ public class Fragment_1<stringRequest> extends Fragment {
                     public void onResponse(String response) {
                         // Display the first 500 characters of the response string.
                         try {
-                            //데이터 가져옴
+                            //get data
                             JSONObject jsonObject = new JSONObject(response);
                             JSONArray jsonArray = jsonObject.getJSONArray("history");
-                            //차트 그리기 위한 ArrayList
+                            //ArrayList for chart
                             ArrayList<Entry> entries = new ArrayList<>();
                             ArrayList<String> labels = new ArrayList<String>();
+                            int length = jsonArray.length();
 
-                            for(int i = 0; i < jsonArray.length(); i++){
+                            for(int i = 0; i < length; i++){
                                 JSONObject item = jsonArray.getJSONObject(i);
                                 double history_pm2 = item.getDouble("pm2");
                                 String history_time = item.getString("time");
-
-                                entries.add(new Entry(i,(float) history_pm2));
-                                labels.add(history_time);
+                                if(history_pm2 != 0 && i % length/15 == 0) {
+                                    entries.add(new Entry(i,(float)history_pm2));
+                                    labels.add(history_time);
+                                }
                             }
 
+                            //draw chart
                             LineDataSet dataset = new LineDataSet(entries,"pm2.5");
                             LineData data = new LineData(dataset);
+                            dataset.setColors(ColorTemplate.PASTEL_COLORS); //색깔
+                            dataset.setLineWidth(2); // 선 굵기
+                            dataset.setCircleRadius(6); // 곡률
                             lineChart.setData(data);
                             lineChart.invalidate();
-                            //LineDataSet dataset = new LineDataSet(entries,"pm2.5");
-                            //LineData data = new LineData(labels, dataset);
-                            //dataset.setColors(ColorTemplate.COLORFUL_COLORS);
-                            //lineChart.setData(data);
-                            //lineChart.animateY(5000);
-
 
                         } catch (JSONException e) {
                             e.printStackTrace();

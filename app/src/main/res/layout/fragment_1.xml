@@ -70,7 +70,7 @@
         android:layout_marginStart="80dp"
         android:layout_marginLeft="80dp"
         android:layout_marginBottom="30dp"
-        android:text="경기도 부천시 역곡동"
+        android:text="경기도 김포시 풍무동"
         android:textSize="18sp"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
