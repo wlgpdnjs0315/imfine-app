@@ -108,14 +108,14 @@ public class Fragment_1<stringRequest> extends Fragment {
                             else if (pm2 >= 16 && pm2 <= 35){
                                 data.setTextColor(Color.GREEN);
                                 text.setText("보통");
-                                text.setTextColor(Color.BLUE);
+                                text.setTextColor(Color.GREEN);
 
                             }
                             //나쁨
                             else if (pm2 >= 36 && pm2 <= 75){
                                 data.setTextColor(Color.YELLOW);
                                 text.setText("나쁨");
-                                text.setTextColor(Color.BLUE);
+                                text.setTextColor(Color.YELLOW);
 
 
                             }
@@ -123,7 +123,7 @@ public class Fragment_1<stringRequest> extends Fragment {
                             else if (pm2 >= 76 && pm2 <= 500){
                                 data.setTextColor(Color.RED);
                                 text.setText("매우 나쁨");
-                                text.setTextColor(Color.BLUE);
+                                text.setTextColor(Color.RED);
                             }
                             data.setText(pm2 + "");
                         } catch (JSONException e) {

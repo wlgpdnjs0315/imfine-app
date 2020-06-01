@@ -37,6 +37,11 @@ public class AirAPI extends AsyncTask<String, Void, String> {
             boolean b_dataTime = false;
             boolean b_pm10Value = false;
             boolean b_pm25Value = false;
+            boolean b_so2Value = false;
+            boolean b_no2Value = false;
+            boolean b_o3Value = false;
+            boolean b_coValue = false;
+
             boolean b_endtag = false;
 
             URL url = new URL(requestUrl);
@@ -92,6 +97,24 @@ public class AirAPI extends AsyncTask<String, Void, String> {
                             b_pm25Value = true;
                             parser.next();
                         }
+
+                        else if (tag.equals("so2Value")) {
+                            b_so2Value = true;
+                            parser.next();
+                        }
+
+                        else if (tag.equals("no2Value")) {
+                            b_no2Value = true;
+                            parser.next();
+                        }
+                        else if (tag.equals("o3Value")) {
+                            b_o3Value = true;
+                            parser.next();
+                        }
+                        else if (tag.equals("coValue")) {
+                            b_coValue = true;
+                            parser.next();
+                        }
                         // TODO : 만약 더 많은 value을 원한다면, 이어서 기술
 
 
@@ -109,6 +132,18 @@ public class AirAPI extends AsyncTask<String, Void, String> {
                         } else if (b_pm25Value) {
                             receiveMsg = receiveMsg + parser.getText() + "_";
                             b_pm25Value = false;
+                        } else if (b_so2Value) {
+                            receiveMsg = receiveMsg + parser.getText() + "_";
+                            b_so2Value = false;
+                        } else if (b_no2Value) {
+                            receiveMsg = receiveMsg + parser.getText() + "_";
+                            b_no2Value = false;
+                        } else if (b_o3Value) {
+                            receiveMsg = receiveMsg + parser.getText() + "_";
+                            b_o3Value = false;
+                        } else if (b_coValue) {
+                            receiveMsg = receiveMsg + parser.getText() + "_";
+                            b_coValue = false;
                         }
                         break;
                     // 종료태그를 만나는순간 (JSON으로 치면, value 찾고 이제 볼일없음)
