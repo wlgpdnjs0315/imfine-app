@@ -70,57 +70,52 @@ public class AirAPI extends AsyncTask<String, Void, String> {
                             parser.next();
                         }
                         else if (tag.equals("dataTime")) {
-                            //receiveMsg = receiveMsg + parser.getText().trim() + "_";
-                            parser.next();
-                            Log.i("air", parser.getText());
+                            //parser.next();
+                            //Log.i("air", parser.getText());
+                            //receiveMsg = receiveMsg + parser.getText()+"_";
                             b_dataTime = true;
-                        }
-                        else if (parser.getName().equals("pm10Value")) {
-                            //receiveMsg = receiveMsg + parser.getText().trim() + "_";
-                            Log.i("air", parser.getText());
                             parser.next();
+                        }
+                        else if (tag.equals("pm10Value")) {
+                            //parser.next();
+                            //Log.i("air", parser.getText());
+                            //receiveMsg = receiveMsg + parser.getText()+"_";
+
                             b_pm10Value = true;
-                        }
-                        else if (parser.getName().equals("pm25Value")) {
-                            //receiveMsg = receiveMsg + parser.getText().trim() + "_";
-                            Log.i("air", parser.getText());
                             parser.next();
+                        }
+                        else if (tag.equals("pm25Value")) {
+                            //receiveMsg = receiveMsg + parser.getText().trim() + "_";
+                            //parser.next();
+                            //Log.i("air", parser.getText());
+
                             b_pm25Value = true;
+                            parser.next();
                         }
                         // TODO : 만약 더 많은 value을 원한다면, 이어서 기술
 
 
-                    case XmlPullParser.END_TAG:
-                        tag = parser.getName();
-                        if(b_endtag)
-                            break;
+
 
                     // 시작태그와 종료태그 사이 값을 만나는순간 (JSON으로 치면 key를 넣어서 값을 얻음)
-                    /*
                     case XmlPullParser.TEXT:
-                        if(b_dataTime){
-                            if()
-                        }
 
                         if (b_dataTime) {
-                            receiveMsg = receiveMsg + parser.getText().trim() + "_";
+                            receiveMsg = receiveMsg + parser.getText() + "_";
                             b_dataTime = false;
                         } else if (b_pm10Value) {
-                            receiveMsg = receiveMsg + parser.getText().trim() + "_";
+                            receiveMsg = receiveMsg + parser.getText()+ "_";
                             b_pm10Value = false;
                         } else if (b_pm25Value) {
-                            receiveMsg = receiveMsg + parser.getText().trim() + "_";
+                            receiveMsg = receiveMsg + parser.getText() + "_";
                             b_pm25Value = false;
                         }
                         break;
                     // 종료태그를 만나는순간 (JSON으로 치면, value 찾고 이제 볼일없음)
                     case XmlPullParser.END_TAG:
-                        if (parser.getName().equals("item")) {
-
-                        }
-                        break;
-                        */
-
+                        tag = parser.getName();
+                        if(b_endtag)
+                            break;
                 }
                 eventType = parser.next();
             }
